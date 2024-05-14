@@ -25,7 +25,7 @@ frutas = [Obstaculoa("imagens_akuma/fruta_amarela.png",100,50,random.randint(5, 
                Obstaculoa("imagens_akuma/fruta_roxa.png",100,50,random.randint(5, 10),0)]
 
 #Configurando a fonte
-fonte = pygame.font.SysFont("Castellar",14)
+fonte = pygame.font.SysFont("Arial",28)
 
 #Carregando som de dor
 som_dor = pygame.mixer.Sound("som/som_dor.mp3")
@@ -43,7 +43,7 @@ pygame.mixer.music.play()
 #Criando um relogio para controlar o FPS
 clock = pygame.time.Clock()
 
-
+pontuacao = 0
 
 
 rodando = True
@@ -68,9 +68,8 @@ while rodando:
         fruta.desenhar(tela)
 
         if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
-            texto_pontuacao_vaca = texto_pontuacao_vaca + 1
+            pontuacao = pontuacao + 1
             som_vaca.play()
-        
             
 
 
@@ -78,8 +77,8 @@ while rodando:
 
 
         
-    texto_pontuacao_vaca = fonte.render(f"Pontuação: {jogador1.pontuacao}",True,(255,0,0))
-    tela.blit(texto_pontuacao_vaca,(0,10))
+    pontuacao1 = fonte.render(f"Pontuação: {pontuacao}",True,(255,255,255))
+    tela.blit(pontuacao1,(0,10))
 
     
 
