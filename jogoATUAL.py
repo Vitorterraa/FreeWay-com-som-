@@ -1,27 +1,28 @@
 import pygame
 import random
-from personagem import Personagem
-from obstaculoANTIGO import Obstaculo
+from personagemATUAL import Personagema
+from obstaculoATUAL import Obstaculoa
 
 pygame.init()
 
 #Constrindo a tela
-tela = pygame.display.set_mode((800,500))
+tela = pygame.display.set_mode((1000,500))
 pygame.display.set_caption("Freeway")
 tela.fill((80,120,200))
 
-FUNDO = pygame.image.load("imagens/estrada.png")
-FUNDO = pygame.transform.scale(FUNDO,(800,500))
+FUNDO = pygame.image.load("imagens_akuma/fundo.jpg")
+FUNDO = pygame.transform.scale(FUNDO,(1000,500))
 
 #Criando mais personagens
-jogador1 = Personagem("imagens/vaca.png",80,50,300,450)
-jogador2 = Personagem("imagens/hamster.png",50,50,450,450)
+jogador1 = Personagema("imagens_akuma/Luffy.png",80,50,300,450)
 
-lista_carro = [Obstaculo("imagens_akuma/fruta_amarela.png",100,50,random.randint(5, 10),0),
-               Obstaculo("imagens_akuma/fruta_abacaxi.jpg",100,50,random.randint(5, 10),0),
-               Obstaculo("imagens_akuma/fruta_azul.webp",100,50,random.randint(5, 10),0),
-               Obstaculo("imagens_akuma/fruta_prata.webp",100,50,random.randint(5, 10),0),
-               Obstaculo("imagens_akuma/fruta_roxa.png",100,50,random.randint(5, 10),0)]
+
+
+frutas = [Obstaculoa("imagens_akuma/fruta_amarela.png",100,50,random.randint(5, 10),0),
+               Obstaculoa("imagens_akuma/fruta_abacaxi.jpg",100,50,random.randint(5, 10),0),
+               Obstaculoa("imagens_akuma/fruta_azul.webp",100,50,random.randint(5, 10),0),
+               Obstaculoa("imagens_akuma/fruta_prata.webp",100,50,random.randint(5, 10),0),
+               Obstaculoa("imagens_akuma/fruta_roxa.png",100,50,random.randint(5, 10),0)]
 
 #Configurando a fonte
 fonte = pygame.font.SysFont("Castellar",14)
@@ -42,6 +43,9 @@ pygame.mixer.music.play()
 #Criando um relogio para controlar o FPS
 clock = pygame.time.Clock()
 
+
+
+
 rodando = True
 while rodando:
     #Tratando eventos
@@ -54,44 +58,30 @@ while rodando:
     tela.blit(FUNDO,(0,0))
 
     #Desenhando as imagens
-    jogador1.movimentar_via_controle(pygame.K_UP,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_LEFT)
+    jogador1.movimentar_via_controle(pygame.K_RIGHT,pygame.K_LEFT)
     jogador1.desenhar(tela)
-    jogador2.movimentar_via_controle(pygame.K_w,pygame.K_s,pygame.K_d,pygame.K_a)
-    jogador2.desenhar(tela)
+
     
 
-    for carro in lista_carro:
-        carro.movimenta()
-        carro.desenhar(tela)
+    for fruta in frutas:
+        fruta.movimenta()
+        fruta.desenhar(tela)
 
-        if jogador1.mascara.overlap(carro.mascara,(carro.pos_x-jogador1.pos_x , carro.pos_y-jogador1.pos_y)):
-            jogador1.pos_x = 300
-            jogador1.pos_y = 450
-            jogador1.pontuacao -= 1
+        if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
+            texto_pontuacao_vaca = texto_pontuacao_vaca + 1
             som_vaca.play()
+        
             
 
-        if jogador2.mascara.overlap(carro.mascara,(carro.pos_x-jogador2.pos_x , carro.pos_y-jogador2.pos_y)):
-            jogador2.pos_x = 450
-            jogador2.pos_y = 450
-            jogador2.pontuacao -= 1
-            som_dor.play()
 
-    if jogador1.pos_y <= 10:
-        jogador1.pos_x = 300
-        jogador1.pos_y = 450
-        jogador1.pontuacao += 1
+    
 
-    if jogador2.pos_y <= 10:
-        jogador2.pos_x = 300
-        jogador2.pos_y = 450
-        jogador2.pontuacao += 1
+
         
-    texto_pontuacao_vaca = fonte.render(f"Pontuação da VACA: {jogador1.pontuacao}",True,(255,0,0))
+    texto_pontuacao_vaca = fonte.render(f"Pontuação: {jogador1.pontuacao}",True,(255,0,0))
     tela.blit(texto_pontuacao_vaca,(0,10))
 
-    texto_pontuacao_hamster= fonte.render(f"Pontuação da HAMSTER: {jogador2.pontuacao}",True,(255,0,0))
-    tela.blit(texto_pontuacao_hamster,(0,24))
+    
 
     #Atualizando a tela
     pygame.display.update()
