@@ -24,9 +24,12 @@ frutas = [Obstaculoa("imagens_akuma/fruta_amarela.png",100,50,random.randint(5, 
                Obstaculoa("imagens_akuma/fruta_prata.webp",100,50,random.randint(5, 10),0),
                Obstaculoa("imagens_akuma/fruta_roxa.png",100,50,random.randint(5, 10),0)]
 
+bomba = [Obstaculoa("imagens_akuma/agua.webp",100,50,random.randint(5, 10),0),
+         Obstaculoa("imagens_akuma/hancock.png",100,50,random.randint(5, 10),0),
+         Obstaculoa("imagens_akuma/akainu.png",100,50,random.randint(5, 10),0),]
 #Configurando a fonte
 fonte = pygame.font.SysFont("Arial",28)
-
+ganhar = pygame.font.SysFont("Arial",28)
 #Carregando som de dor
 som_dor = pygame.mixer.Sound("som/som_dor.mp3")
 som_vaca = pygame.mixer.Sound("som/som_vaca.mp3")
@@ -69,7 +72,35 @@ while rodando:
 
         if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
             pontuacao = pontuacao + 1
+            fruta.pos_y = 0
+            fruta.pos_x = random.randint(0, 900)
+            velocidade = random.randint(1, 5)
+
+
+    for fruta in bomba:
+        fruta.movimenta()
+        fruta.desenhar(tela)
+
+        if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
+            rodando = False
+            fruta.pos_y = 0
+            fruta.pos_x = random.randint(0, 900)
+            velocidade = random.randint(1, 5)
+
+
+
+
+            if pontuacao == 3:
+                ganhar = fonte.render(f"Pontuação: {pontuacao}",True,(255,255,255))
+                tela.blit(pontuacao,(250,10))
+                
+                pygame.time.wait(5000)
+                rodando = False
+                pygame.display.update()
             som_vaca.play()
+
+        #if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
+
             
 
 
