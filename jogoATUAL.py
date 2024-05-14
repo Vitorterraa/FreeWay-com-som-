@@ -75,6 +75,12 @@ while rodando:
             fruta.pos_y = 0
             fruta.pos_x = random.randint(0, 900)
             velocidade = random.randint(1, 5)
+            if pontuacao == 3:
+                ganhar = fonte.render("VOCÊ VENCEU!!!!",True,(255,255,255))
+                tela.blit(ganhar,(400,250))
+                pygame.display.update()
+                pygame.time.wait(3000)
+                rodando = False
 
 
     for fruta in bomba:
@@ -90,14 +96,9 @@ while rodando:
 
 
 
-            if pontuacao == 3:
-                ganhar = fonte.render(f"Pontuação: {pontuacao}",True,(255,255,255))
-                tela.blit(pontuacao,(250,10))
+            
                 
-                pygame.time.wait(5000)
-                rodando = False
-                pygame.display.update()
-            som_vaca.play()
+
 
         #if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
 
