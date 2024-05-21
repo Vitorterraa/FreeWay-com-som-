@@ -5,6 +5,7 @@ from obstaculoATUAL import Obstaculoa
 
 pygame.init()
 
+
 #Constrindo a tela
 tela = pygame.display.set_mode((1000,500))
 pygame.display.set_caption("Freeway")
@@ -18,18 +19,20 @@ jogador1 = Personagema("imagens_akuma/Luffy.png",80,50,300,450)
 
 
 
-frutas = [Obstaculoa("imagens_akuma/fruta_amarela.png",100,50,random.randint(5, 10),0),
-               Obstaculoa("imagens_akuma/fruta_abacaxi.jpg",100,50,random.randint(5, 10),0),
-               Obstaculoa("imagens_akuma/fruta_azul.webp",100,50,random.randint(5, 10),0),
-               Obstaculoa("imagens_akuma/fruta_prata.webp",100,50,random.randint(5, 10),0),
-               Obstaculoa("imagens_akuma/fruta_roxa.png",100,50,random.randint(5, 10),0)]
+frutas = [Obstaculoa("imagens_akuma/fruta_amarela.png",100,50,random.randint(1, 5),0),
+               Obstaculoa("imagens_akuma/tesouro.png",100,50,random.randint(1, 5),0),
+               Obstaculoa("imagens_akuma/fruta_azul.webp",100,50,random.randint(1, 5),0),
+               Obstaculoa("imagens_akuma/fruta_prata.webp",100,50,random.randint(1, 5),0),
+               Obstaculoa("imagens_akuma/fruta_roxa.png",100,50,random.randint(1, 5),0)]
 
 bomba = [Obstaculoa("imagens_akuma/agua.webp",100,50,random.randint(5, 10),0),
          Obstaculoa("imagens_akuma/hancock.png",100,50,random.randint(5, 10),0),
          Obstaculoa("imagens_akuma/akainu.png",100,50,random.randint(5, 10),0),]
 #Configurando a fonte
-fonte = pygame.font.SysFont("Arial",28)
-ganhar = pygame.font.SysFont("Arial",28)
+fonte = pygame.font.SysFont("Bauhaus 93",28)
+perder = pygame.font.SysFont("Bauhaus 93",28)
+ganhar = pygame.font.SysFont("Bauhaus 93",28)
+
 #Carregando som de dor
 som_dor = pygame.mixer.Sound("som/som_dor.mp3")
 som_vaca = pygame.mixer.Sound("som/som_vaca.mp3")
@@ -47,25 +50,77 @@ pygame.mixer.music.play()
 clock = pygame.time.Clock()
 
 pontuacao = 0
+terra = 0
 
 
+
+
+
+
+tempo = 0
 rodando = True
 while rodando:
+    
     #Tratando eventos
     for evento in pygame.event.get():
         if evento.type == pygame.MOUSEBUTTONDOWN:
             print("Você clicou!!")
         if evento.type == pygame.QUIT:
+            
             rodando = False
+
+    tela.blit(FUNDO,(0,0))
+
+
+    if tempo == 0:
+        contagem_regressiva = fonte.render("O JOGO COMEÇA EM....",True,(255,255,255))
+        tela.blit(contagem_regressiva,(350, 250))
+        pygame.display.update()
+        pygame.time.wait(1000)
+        
+
+    tempo = tempo + 1
+    
+
+    tela.blit(FUNDO,(0,0))
+    if tempo == 1:
+        contagem_regressiva = fonte.render("3",True,(255,255,255))
+        tela.blit(contagem_regressiva,(500, 250))
+        pygame.display.update()
+        
+        pygame.time.wait(1000)
+
+    tempo = tempo + 1
+
+    tela.blit(FUNDO,(0,0))
+
+    if tempo == 2:
+        contagem_regressiva = fonte.render("2",True,(255,255,255))
+        tela.blit(contagem_regressiva,(500, 250))
+        pygame.display.update()
+        
+        pygame.time.wait(1000)
+
+    tempo = tempo + 1
+
+    tela.blit(FUNDO,(0,0))
+
+    if tempo == 3:
+        contagem_regressiva = fonte.render("1",True,(255,255,255))
+        tela.blit(contagem_regressiva,(500, 250))
+        pygame.display.update()
+        
+        pygame.time.wait(1000)
+
+    tempo = tempo + 1
 
     tela.blit(FUNDO,(0,0))
 
     #Desenhando as imagens
     jogador1.movimentar_via_controle(pygame.K_RIGHT,pygame.K_LEFT)
     jogador1.desenhar(tela)
-
     
-
+    
     for fruta in frutas:
         fruta.movimenta()
         fruta.desenhar(tela)
@@ -74,12 +129,12 @@ while rodando:
             pontuacao = pontuacao + 1
             fruta.pos_y = 0
             fruta.pos_x = random.randint(0, 900)
-            velocidade = random.randint(1, 5)
+            velocidade = random.randint(1, 3)
             if pontuacao == 3:
                 ganhar = fonte.render("VOCÊ VENCEU!!!!",True,(255,255,255))
                 tela.blit(ganhar,(400,250))
                 pygame.display.update()
-                pygame.time.wait(3000)
+                pygame.time.wait(1000)
                 rodando = False
 
 
@@ -87,11 +142,17 @@ while rodando:
         fruta.movimenta()
         fruta.desenhar(tela)
 
+        
         if jogador1.mascara.overlap(fruta.mascara,(fruta.pos_x-jogador1.pos_x , fruta.pos_y-jogador1.pos_y)):
+            perder = fonte.render("VOCÊ É HORRIVEL!!!!",True,(255,255,255))
+            tela.blit(perder,(400,250))
+            pygame.display.update()
+            pygame.time.wait(1000)
             rodando = False
+           
             fruta.pos_y = 0
             fruta.pos_x = random.randint(0, 900)
-            velocidade = random.randint(1, 5)
+            velocidade = random.randint(1, 3)
 
 
 

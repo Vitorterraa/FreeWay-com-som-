@@ -32,7 +32,7 @@ class Personagema:
                 self.pos_x = self.pos_x - 5
 
         if teclas[direita]:
-            if self.pos_x < 800-self.largura:
+            if self.pos_x < 920:
                 self.pos_x = self.pos_x + 5
         
        
